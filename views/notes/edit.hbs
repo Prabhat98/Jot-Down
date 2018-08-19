@@ -1,0 +1,46 @@
+<div class = "bg-light">
+    <div class = "container">
+        <div class = "row">
+            <div class = "col text-center pt-4 pb-3">
+                <h1 class = "display-4">
+                    Edit a Note
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class = "container">
+    <div class = "card border-secondary">
+        <div class = "card-header text-center font-weight-bold">
+            Changes to be made
+        </div>
+        <div class = "card-body">
+            <!-- Form data is will be of a particular Note as specified by id and method
+                will be PUT overriden on POST, the action attribute specifies the path on
+                which the data will be sent and on that path we have created an routes.put
+                request in file.js which will further update the note
+             -->
+            <form action = "/notes/{{editNote.id}}?_method=PUT" method = "POST">
+            <input type = "hidden" name = "_method" value = "PUT">
+            <!--
+                The value attribute specifies the default value of an input element 
+                although the same doesn't work for text area, for text area we need to
+                do <textarea>Default Text</textarea>
+            -->
+                <div class = "form-group">
+                    <label for = "title">Title</label>
+                    <input type = "text" class = "form-control border-primary" name = "title" value = "{{editNote.title}}" required>
+                </div>
+                <div class = "form-group">
+                    <label for = "details">Details</label>
+                    <textarea class = "form-control border-primary" name = "details" required>{{editNote.details}}</textarea>
+                </div>
+                <button type = "submit" class = "btn btn-primary float-right">Submit</button>
+            </form>
+        </div>
+        <div class = "card-footer text-muted text-center">
+            All your notes are instantly and securely saved to the cloud.
+        </div>
+    </div>
+</div>

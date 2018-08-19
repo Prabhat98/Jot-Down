@@ -1,0 +1,74 @@
+<!--
+    The whole data fetched from database(finAll()) upon get request is stored in mynotes parameter
+    which is then passed to mynotes.hbs to be rendered, although we didn't pass title and details 
+    to be rendered but the mynotes parameter itslef containes the title and details as it has 
+    the information about the whole form submitted by the user so it contains the title as well as 
+    details directly from the database.
+    Hence we could use title and details variable here, which could be seen by doing console.log
+    in file.js from where we are sending the get request on /mynotes and there we can see the
+    rows variable(declared in database i.e title and details) which we are using here 
+-->
+
+<div class = "bg-light">
+    <div class = "container">
+        <div class = "row">
+            <div class = "col text-center pt-3 pb-3">
+                <h1 class = "display-4">
+                    My Jots :)
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+    #each will iterate over the list, invoking the body for each element
+-->
+<div class = "container">
+    {{#each mynotes}}
+        <div class = "card mb-2 border-primary">
+            <div class = "card-header text-right text-muted">
+                Created on : {{date}}
+            </div>
+            <div class = "card-body">
+                <h2 class = "card-title">
+                    {{title}}
+                </h2>
+                <p class = "card-text">
+                    {{details}}
+                </p>  
+                <!--
+                    /notes/edit/{{id}} takes us to that particular note that we want to edit,
+                    id is by default auto increment primary key provided by sequelize
+                -->
+                <div class = "row">
+                    <div class = "col-lg-6">
+                        <a class = "btn btn-success btn-block mb-2" href = "/notes/edit/{{id}}">Edit</a>
+                    </div>
+                    <div class = "col-lg-6">
+                        <form action = "/notes/{{id}}?_method=DELETE" method = "POST">
+                            <input type = "hidden" name = "_method" value = "DELETE">
+                            <input type = "submit" class = "btn btn-danger btn-block" value = "Delete">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{else}}
+        <div class = "bg-light">
+            <div class = "container">
+                <div class = "row">
+                    <div class = "col text-center pt-5 pb-5">
+                        <h1 class = "display-3">
+                            No Jots found :(
+                        </h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+<!--
+    HAL at the color problem
+    image problem might be solved using javascript to get image
+-->
