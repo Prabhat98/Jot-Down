@@ -1,7 +1,7 @@
 <nav class = "navbar navbar-expand-md bg-dark navbar-dark fixed-top py-2 mb-3">
     <div class = "container">
         <a href = "/" class = "navbar-brand">
-            <!--<img src = "../logo.png" height = "50" width = "50">-->
+            <!--<img src = "logo.png" height = "50" width = "50">-->
             <h3 class = "d-inline align-middle">Jot-Down</h3>
         </a>
         <button class = "navbar-toggler" type = "button" data-toggle = "collapse" data-target = "#coll">
@@ -23,20 +23,34 @@
                 </li>-->
             </ul>
             <ul class = "navbar-nav ml-auto">
-                <li class = "nav-item dropdown">
-                    <button type = "button" class = "btn btn-secondary dropdown-toggle" data-toggle = "dropdown">
-                        Notes
-                    </button>
-                    <div class = "dropdown-menu bg-light">
-                        <a href = "/mynotes" class = "dropdown-item">
-                            <button class = "btn btn-primary btn-block">My Notes</button>
-                        </a>
-                        <div class = "dropdown-divider"></div>
-                        <a href = "/notes/add" class = "dropdown-item">
-                            <button class = "btn btn-primary btn-block">Take Notes</button>
-                        </a>
-                    </div>
-                </li>
+                {{#if user}}
+                    <li class = "nav-item dropdown">
+                        <button type = "button" class = "btn btn-secondary dropdown-toggle" data-toggle = "dropdown">
+                            Notes
+                        </button>
+                        <div class = "dropdown-menu bg-light">
+                            <a href = "/mynotes" class = "dropdown-item">
+                                <button class = "btn btn-primary btn-block">My Notes</button>
+                            </a>
+                            <div class = "dropdown-divider"></div>
+                            <a href = "/notes/add" class = "dropdown-item">
+                                <button class = "btn btn-primary btn-block">Take Notes</button>
+                            </a>
+                        </div>
+                    </li>
+                    <li class = "nav-item">
+                        <a href = "/users/logout">
+                            <button class = "btn btn-danger">Logout</button>
+                        </a>                        
+                    </li>
+                {{else}}
+                    <li class = "nav-item">
+                        <a href = "/users/signup" class = "nav-link">Sign Up</a>
+                    </li>
+                    <li class = "nav-item">
+                        <a href = "/users/login" class = "nav-link">Login</a>
+                    </li>
+                {{/if}}
             </ul>
         </div>
     </div>

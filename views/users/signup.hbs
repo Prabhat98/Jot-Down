@@ -1,0 +1,53 @@
+<div class = "container">
+    {{#if flag1}}
+        <div class = "alert alert-danger">
+            <strong>Alert!</strong> Passwords donot match.
+        </div>
+    {{/if}}
+    {{#if flag2}}
+        <div class = "alert alert-danger">
+            <strong>Alert!</strong> Password must be at least 4 characters
+        </div>
+    {{/if}}
+    {{#if flag3}}
+        <div class = "alert alert-danger">
+            <strong>Alert!</strong> Email already registered, try logging in
+        </div>
+    {{/if}}
+</div>
+<div class = "container">
+    <div class = "row">
+        <div class = "col-md-6 mx-auto">
+            <div class = "card">
+                <div class = "card-header text-center">
+                    <h1>
+                        Sign Up
+                    </h1>
+                </div>
+                <div class = "card-body">
+                    <!-- The form data will be sent to /users/signup path where we apply the post request
+                    on that path -->
+                    <form action = "/users/signup" method = "POST">
+                        <div class = "form-group">
+                            <label for = "name">Name</label>
+                            <input type = "text" name = "name" value = "{{name}}" class = "form-control" required>
+                        </div>
+                        <div class = "form-group">
+                            <label for = "email">Email</label>
+                            <input type = "email" name = "email" value = "{{email}}" class = "form-control" required>
+                        </div>
+                        <div class = "form-group">
+                            <label for = "password">Password</label>
+                            <input type = "password" name = "password" value = "{{password}}" class = "form-control" required>
+                        </div>
+                        <div class = "form-group">
+                            <label for = "password2">Confirm Password</label>
+                            <input type = "password" name = "password2" value = "{{password2}}" class = "form-control" required>
+                        </div>
+                        <button type = "submit" class = "btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

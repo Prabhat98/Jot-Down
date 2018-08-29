@@ -97,6 +97,7 @@ routes.post('/notes',(req,res) =>
                 details:req.body.details
             }).then((newNote) =>
             {
+                req.flash('success_msg', 'Note created !!')
                 res.redirect('/mynotes')
             })
     }
@@ -120,6 +121,7 @@ routes.put('/notes/:id',(req,res) =>
             newNote.save()
                 .then((updatedNote) =>
                 {
+                    req.flash('success_msg', 'Note updated !!')
                     res.redirect('/mynotes')
                 })
         })
@@ -144,6 +146,7 @@ routes.delete('/notes/:id',(req,res) =>
         })
         .then(() =>
         {
+            req.flash('success_msg', 'Note removed !!')
             res.redirect('/mynotes')
         })
 })
