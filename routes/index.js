@@ -1,5 +1,6 @@
 const routes = require('express').Router()
 const Note = require('../database/db').Notes
+const {ensureAuthenticated} = require('../helper/auth')
 
 routes.get('/',(req,res) =>
 {
@@ -12,12 +13,12 @@ routes.get('/about',(req,res) =>
     res.render('about',{layout:'main'})
 })
 
-routes.get('/notes/add',(req,res) =>
+routes.get('/notes/add', ensureAuthenticated, (req,res) =>
 {
     res.render('notes/add',{layout:'main'})
 })
 
-routes.get('/notes/edit/:id',(req,res) =>
+routes.get('/notes/edit/:id', ensureAuthenticated, (req,res) =>
 {
     /*
      * First Edit button will be clicked which will take us to /notes/edit/{{id}} and we find 
@@ -32,16 +33,24 @@ routes.get('/notes/edit/:id',(req,res) =>
         })
         .then((editNote) =>
         {
-            res.render('notes/edit',
+            if(editNote.userid!=req.user.id)
             {
-                layout:'main',
-                editNote:editNote
-            })
-            //console.log(editNote) this will give that particular note to be edited
+                req.flash('error_msg', 'Not Authorized')
+                res.redirect('/mynotes')
+            }
+            else
+            {
+                res.render('notes/edit',
+                {
+                    layout:'main',
+                    editNote:editNote
+                })
+                //console.log(editNote) this will give that particular note to be edited
+            }
         })
 })
 
-routes.get('/mynotes',(req,res) =>
+routes.get('/mynotes', ensureAuthenticated, (req,res) =>
 {
     //let colors = [' bg-info',' bg-danger',' bg-warning']
     //let color = colors[Math.floor(Math.random()*colors.length)]
@@ -51,9 +60,14 @@ routes.get('/mynotes',(req,res) =>
      * using hbs rendering    
     */
     // the order clause in findAll arranges the data in descending order of date(row)
-    Note.findAll({order:[['date','DESC']]})
+    Note.findAll(
+    {
+        where:{userid:req.user.id},
+        order:[['date','DESC']]
+    })
         .then((mynotes) =>
         {
+            //console.log("This is the user's id from index.js file " + req.user.id)
             //console.log(mynotes) //this will log the fetched data from database(in mynotes)
             res.render('notes/mynotes',
             {
@@ -72,7 +86,7 @@ routes.get('/mynotes',(req,res) =>
 /*
  * Both client side validation and server side validation has been included
  */
-routes.post('/notes',(req,res) =>
+routes.post('/notes', ensureAuthenticated, (req,res) =>
 {
     let flag = false
     if(!(req.body.title && req.body.details))
@@ -94,16 +108,19 @@ routes.post('/notes',(req,res) =>
         Note.create(
             {
                 title:req.body.title,
-                details:req.body.details
+                details:req.body.details,
+                userid:req.user.id
             }).then((newNote) =>
             {
+                //console.log("This is req.user.id " + req.user.id)
+                //console.log("This is the id of the user when creating a new note from index.js " + req.user.id)
                 req.flash('success_msg', 'Note created !!')
                 res.redirect('/mynotes')
             })
     }
 })
 
-routes.put('/notes/:id',(req,res) =>
+routes.put('/notes/:id', ensureAuthenticated, (req,res) =>
 {
     Note.findOne(
         {
@@ -127,7 +144,7 @@ routes.put('/notes/:id',(req,res) =>
         })
 })
 
-routes.delete('/notes/:id',(req,res) =>
+routes.delete('/notes/:id', ensureAuthenticated, (req,res) =>
 {
     /* This would execute as null coz the the note is deleted an then this runs
     Note.findOne(

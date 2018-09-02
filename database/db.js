@@ -18,6 +18,11 @@ const Notes = db.define('notes',
         type:sequelize.STRING,
         allowNull:false
     },
+    userid:
+    {
+        type:sequelize.STRING,
+        allowNull:false
+    },
     date:
     {
         type:sequelize.DATE,

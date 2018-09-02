@@ -39,6 +39,7 @@ passport.use(new LocalStrategy(
                     }
                     if(isMatch)
                     {
+                        //console.log("This is the id of logged in user from passport.js " + user.id)
                         return done(null, user)
                     }
                     else
